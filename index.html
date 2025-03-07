@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Compétition Youtube</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./css/main.css" />
+    <link
+      href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css"
+      rel="stylesheet"
+    />
+    <!-- Ajout de Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "cyan-glow": "#0E19E1",
+              "custom-red": "#C21919",
+            },
+          },
+        },
+      };
+    </script>
+   
+
+    <style>
+      /* Style pour décaler davantage la div ytp-error vers la droite */
+      .ytp-error {
+        transform: translateX(50px) !important;
+        margin-left: 50px !important;
+      }
+
+      iframe .ytp-error,
+      iframe[src*="youtube"] .ytp-error {
+        margin-left: 50px !important;
+        position: relative !important;
+      }
+
+      /* Styles pour le header fixe et le contenu principal */
+      #main-content {
+        padding-top: 4rem; /* Ajoute un espace pour compenser la hauteur du header fixe */
+        position: relative;
+        z-index: 1;
+        isolation: isolate;
+      }
+
+      #static-footer {
+        position: static;
+        z-index: 9999;
+        background-color: #000;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2rem 0;
+        isolation: isolate;
+      }
+
+      /* Style pour l'effet de glow sur le texte */
+      .text-shadow-glow {
+        text-shadow: 0 0 10px rgba(14, 25, 225, 0.5),
+          0 0 20px rgba(14, 25, 225, 0.3), 0 0 30px rgba(14, 25, 225, 0.1);
+      }
+
+      /* Animation pour le bouton de retour en haut */
+      #back-to-top {
+        transition: opacity 0.3s, visibility 0.3s, background-color 0.3s,
+          color 0.3s;
+      }
+
+      /* Effet lumineux pour le bouton rouge */
+      .btn-glow-red {
+        box-shadow: 0 0 0 rgba(194, 25, 25, 0);
+        transition: all 0.3s ease;
+      }
+
+      .btn-glow-red:hover {
+        box-shadow: 0 0 15px rgba(194, 25, 25, 0.8),
+          0 0 25px rgba(194, 25, 25, 0.6), 0 0 35px rgba(194, 25, 25, 0.4);
+        transform: scale(1.05);
+      }
+
+      /* Effet lumineux pour le bouton bleu */
+      .btn-glow-blue {
+        box-shadow: 0 0 0 rgba(14, 25, 225, 0);
+        transition: all 0.3s ease;
+      }
+
+      .btn-glow-blue:hover {
+        box-shadow: 0 0 15px rgba(14, 25, 225, 0.8),
+          0 0 25px rgba(14, 25, 225, 0.6), 0 0 35px rgba(14, 25, 225, 0.4);
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header qui suit le défilement -->
+    <header
+      class="fixed top-0 left-0 w-full bg-black/70 backdrop-blur-sm z-[9999] px-4 py-2 flex items-center shadow-lg transition-all duration-300"
+    >
+      <!-- Logo -->
+      <div class="flex items-center w-1/4">
+        <img
+          src="img/USArts_Blanc.png"
+          alt="USArts Logo"
+          class="w-12 h-12 object-contain"
+          style="width: 3rem; height: 3rem"
+        />
+      </div>
+
+      <!-- Navigation centrée avec Tailwind CSS -->
+      <nav class="w-2/4 flex justify-center">
+        <ul class="flex space-x-6 items-center">
+          <li>
+            <a
+              href="#about"
+              class="text-white hover:text-cyan-glow transition-colors duration-300 text-base font-medium"
+              >À Propos</a
+            >
+          </li>
+          <li>
+            <a
+              href="#video"
+              class="text-white hover:text-cyan-glow transition-colors duration-300 text-base font-medium"
+              >Vidéo</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.youtube.com/@USArtsofficial"
+              target="_blank"
+              class="px-3 py-1.5 bg-cyan-glow border border-cyan-glow text-white hover:bg-cyan-glow hover:text-white transition-all duration-300 rounded-md text-sm btn-glow-blue">Rejoignez-nous</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Espace vide pour équilibrer le header -->
+      <div class="w-1/4"></div>
+    </header>
+
+    <!-- Contenu principal avec effet parallaxe -->
+    <div id="main-content">
+      <div class="wrapper">
+        <div id="accueil" class="parallax__group hero-container">
+          <div class="parallax__layer sky"></div>
+          <div class="parallax__layer bushes"></div>
+          <div class="parallax__layer water"></div>
+          <div class="parallax__layer people1"></div>
+          <div class="parallax__layer people2"></div>
+          <div class="parallax__layer people3"></div>
+
+          <div class="parallax__layer hero-text">
+            <div class="year-container flex flex-col items-center justify-center min-h-screen px-4 text-center">
+              <h1 class="centered-title text-white text-shadow-glow mb-4 text-3xl md:text-4xl lg:text-5xl">
+                La Scénographie Moderne
+              </h1>
+              <p class="text-white/90 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+                L'art de la mise en scène réinventé pour l'ère numérique
+              </p>
+              <a
+                href="#video"
+                class="inline-block px-6 py-3 bg-custom-red border-2 border-custom-red text-white hover:bg-custom-red hover:text-white transition-all duration-300 rounded-md text-base font-medium btn-glow-red"
+                >Découvrir</a
+              >
+            </div>
+          </div>
+        </div>
+        <div id="about" class="parallax__group">
+          <!-- Section About Us avec Tailwind CSS -->
+          <div class="py-16 px-4 bg-black min-h-screen flex flex-col justify-center relative z-10">
+          
+            <div class="max-w-7xl mx-auto w-full">
+              <h2 class="text-4xl font-bold text-center mb-8 text-white text-shadow-glow">
+                À Propos de Nous
+              </h2>
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="text-container p-8 bg-gray-900/80 rounded-lg backdrop-blur-sm border border-cyan-glow/30 shadow-[0_0_15px_rgba(14,25,225,0.2)]">
+                  <h3 class="text-2xl font-bold text-cyan-glow mb-4">Notre Vision</h3>
+                  <p class="text-white/90 text-lg mb-6">
+                    Nous décryptons l'art de la scénographie de concert pour révéler son impact sur l'expérience du spectateur. À travers une approche mêlant esthétique, technique et narration visuelle, nous analysons comment chaque élément – lumière, décor, mise en scène – contribue à l'émotion et à l'immersion du public. Notre objectif : explorer et comprendre les mécanismes qui transforment un simple spectacle en une expérience inoubliable.</p>
+                  <p class="text-white/90 text-lg">
+                    Chaque concert est une œuvre vivante où la scénographie devient un langage visuel puissant, captivant le public et intensifiant l'expérience artistique.
+                  </p>
+                </div>
+                <div class="relative rounded-lg overflow-hidden shadow-[0_0_15px_rgba(194,25,25,0.3)] transform transition-transform duration-300 hover:scale-[1.02]">
+                  <img src="img/about-scenography.jpg" alt="L'art de la scénographie" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1470&auto=format&fit=crop'" />
+                  <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                    <p class="text-white font-medium text-lg">L'innovation au service de l'art</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-900/60 p-6 rounded-lg border-t-2 border-cyan-glow shadow-[0_0_10px_rgba(14,25,225,0.15)] transition-all duration-300 hover:shadow-[0_0_15px_rgba(14,25,225,0.3)] hover:translate-y-[-5px]">
+                  <div class="text-cyan-glow text-3xl mb-4"><i class="icon ion-md-bulb"></i></div>
+                  <h4 class="text-xl font-bold text-white mb-3">Notre approche</h4>
+                  <p class="text-white/80">Ces vidéos naissent de notre passion pour la musique et l'art visuel. En analysant la scénographie des concerts, nous cherchons à montrer comment chaque élément scénique enrichit l'expérience du public, en explorant l'interconnexion entre visuel et musique, notamment dans les performances américaines</p>
+                </div>
+                
+                <div class="bg-gray-900/60 p-6 rounded-lg border-t-2 border-custom-red shadow-[0_0_10px_rgba(194,25,25,0.15)] transition-all duration-300 hover:shadow-[0_0_15px_rgba(194,25,25,0.3)] hover:translate-y-[-5px]">
+                  <div class="text-custom-red text-3xl mb-4"><i class="icon ion-md-flash"></i></div>
+                  <h4 class="text-xl font-bold text-white mb-3">L'univers scénique</h4>
+                  <p class="text-white/80">Nous voulons partager l'émotion et l'impact visuel d'un concert, en explorant comment chaque détail scénique renforce l'expérience du public</p>
+                </div>
+                
+                <div class="bg-gray-900/60 p-6 rounded-lg border-t-2 border-cyan-glow shadow-[0_0_10px_rgba(14,25,225,0.15)] transition-all duration-300 hover:shadow-[0_0_15px_rgba(14,25,225,0.3)] hover:translate-y-[-5px]">
+                  <div class="text-cyan-glow text-3xl mb-4"><i class="icon ion-md-people"></i></div>
+                  <h4 class="text-xl font-bold text-white mb-3">Engagement</h4>
+                  <p class="text-white/80">Nos vidéos sont le fruit de notre engagement à partager des analyses détaillées de la scénographie des concerts. Nous voulons offrir à notre public des informations précieuses, permettant de mieux comprendre l'impact visuel et émotionnel de chaque performance.</p>
+                </div>
+                </div>
+              </div>
+          
+        
+        <div id="video" class="parallax__group">
+          <!-- Section Vidéo avec Tailwind CSS -->
+          <div
+            class="py-16 px-4 bg-black min-h-screen flex flex-col justify-center relative z-20"
+          >
+            <div class="max-w-7xl mx-auto w-full">
+              <h2 class="text-4xl font-bold text-center mb-8 text-white">
+                Dernière Vidéo
+              </h2>
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div
+                  class="rounded-lg overflow-hidden shadow-[0_0_15px_rgba(14,25,225,0.3)] transform transition-transform duration-300 hover:scale-[1.02]"
+                >
+                  <div
+                    class="relative w-full pt-[56.25%] flex items-center justify-center overflow-hidden"
+                  >
+                    <iframe
+                      class="youtube-video youtube-error-shifted absolute inset-0 w-full h-full object-cover"
+                      src="https://www.youtube.com/embed/N6ABTx9F9sE?si=k5U7pns1scRAU9Ek"
+                      title="YouTube video player"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                </div>
+                <div
+                  class="text-container p-6 bg-gray-900/80 rounded-lg backdrop-blur-sm"
+                >
+                  <blockquote
+                    class="text-xl italic font-medium text-white/90 mb-6"
+                  >
+                    "What would life be if we had no courage to attempt
+                    anything?"
+                    <footer class="text-right text-cyan-glow mt-2">
+                      - Vincent Van Gogh
+                    </footer>
+                  </blockquote>
+                  <p class="text-white/80 mb-8">
+                    Découvrez notre approche moderne de la scénographie à
+                    travers nos créations vidéo. Nous explorons les frontières
+                    entre l'art traditionnel et les nouvelles technologies.
+                  </p>
+                  <div class="text-center">
+                    <a
+                      href="https://www.youtube.com/@USArtsofficial"
+                      target="_blank"
+                      class="inline-block px-6 py-3 bg-cyan-glow border-2 border-cyan-glow text-white hover:bg-cyan-glow hover:text-white transition-all duration-300 rounded-md text-base font-medium btn-glow-blue"
+                      >Rejoignez-nous</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section des deux shorts -->
+          <div class="max-w-7xl mx-auto w-full mt-16">
+            <h3 class="text-3xl font-bold text-center mb-8 text-white">
+              Nos Shorts
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Premier Short -->
+              <div class="group flex flex-col items-center rounded-xl overflow-hidden bg-gray-900/80 shadow-[0_0_15px_rgba(0,0,0,0.5)] transform transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,25,225,0.4)] hover:scale-[1.03]">
+                <div class="relative w-full pt-[177.78%] flex items-center justify-center overflow-hidden">
+                  <iframe
+                    class="youtube-video youtube-error-shifted absolute inset-0 w-full h-full object-cover"
+                    src="https://youtube.com/embed/vVn1Ha7t7IE?si=odv1-0AmpFMfe99J"
+                    title="YouTube Shorts player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+                <div class="w-full p-5 bg-gradient-to-b from-gray-900/90 to-black">
+                  <h4 class="text-xl font-semibold text-white group-hover:text-cyan-glow transition-colors duration-300 mb-2">
+                    Scénographie Minimaliste
+                  </h4>
+                  <p class="text-white/70 text-sm">
+                    L'art de créer un impact maximal avec un minimum d'éléments sur scène.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Deuxième Short -->
+              <div class="group flex flex-col items-center rounded-xl overflow-hidden bg-gray-900/80 shadow-[0_0_15px_rgba(0,0,0,0.5)] transform transition-all duration-300 hover:shadow-[0_0_20px_rgba(14,25,225,0.4)] hover:scale-[1.03]">
+                <div class="relative w-full pt-[177.78%] flex items-center justify-center overflow-hidden">
+                  <iframe
+                    class="youtube-video youtube-error-shifted absolute inset-0 w-full h-full object-cover"
+                    src="https://youtube.com/embed/TSQSENS5JOY?si=BjfhbA2k1w9xc4_y"
+                    title="YouTube Shorts player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+                <div class="w-full p-5 bg-gradient-to-b from-gray-900/90 to-black">
+                  <h4 class="text-xl font-semibold text-white group-hover:text-cyan-glow transition-colors duration-300 mb-2">
+                    Effets Spéciaux sur Scène
+                  </h4>
+                  <p class="text-white/70 text-sm">
+                    Technologies innovantes pour créer des expériences visuelles immersives.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+              <!-- Footer avec Tailwind CSS -->
+              <footer id="contact" class="bg-black py-12 px-4" style="margin-top: 5rem;">
+                <div class="max-w-6xl mx-auto">
+                  <div
+                    class="flex flex-col md:flex-row justify-between items-center border-t border-gray-800 pt-8 "
+                  >
+                    <div class="mb-6 md:mb-0">
+                      <img
+                        src="img/USArts_Blanc.png"
+                        alt="USArts Logo"
+                        class="mb-4 object-contain"
+                        style="width: 3rem; height: 3rem"
+                      />
+                      <p class="text-white/70 text-sm">
+                        &copy; 2025 La Scénographie Moderne. Tous droits
+                        réservés.
+                      </p>
+                    </div>
+
+                    <div class="flex flex-col items-center md:items-end">
+                      <div class="flex space-x-4 mb-4">
+                        <a
+                          href="https://www.instagram.com/scenographie.moderne"
+                          target="_blank"
+                          class="text-white/70 hover:text-cyan-glow transition-colors duration-300"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                            />
+                          </svg>
+                        </a>
+                        <a
+                          href="https://www.youtube.com/@USArtsofficial"
+                          target="_blank"
+                          class="text-white/70 hover:text-cyan-glow transition-colors duration-300"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"
+                            />
+                          </svg>
+                        </a>
+                      </div>
+                      <p class="text-white/50 text-xs">
+                        Conçu avec passion par La Scénographie Moderne
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </footer>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+</div>
+
+     <script src="./js/youtube-fix.js"></script>
+    <script src="./js/navigation.js"></script>
+  </body>
+</html>
